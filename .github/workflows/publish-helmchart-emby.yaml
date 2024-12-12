@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   publish-helmchart:
-    name: Publish Helm chart - ${{ env:CHART_NAME }}
+    name: Publish Helm chart - $CHART_NAME
     runs-on: ubuntu-latest
     permissions:
       #contents: write # needed to write releases
