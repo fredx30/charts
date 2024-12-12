@@ -1,0 +1,117 @@
+# Default values for factorio.
+# Dockerhub ref: https://hub.docker.com/r/factoriotools/factorio/
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: factoriotools/factorio
+  # This sets the pull policy for images.
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "stable"
+
+# This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+imagePullSecrets: [ ]
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+envVars:
+  - name: INSTANCE_NAME
+    value: Your Instance's Name
+  - name: INSTANCE_DESC
+    value: Your Instance's Description
+  - name: PORT
+    value: "34197"
+  - name: RCON_PORT
+    value: "27015"
+  - name: SAVE_NAME
+    value: "game_save_1"
+  - name: DLC_SPACE_AGE
+    value: "true"
+  - name: USERNAME
+    value: ""
+  - name: TOKEN
+    value: ""
+  # - name: UPDATE_MODS_ON_START
+  #   value: ""
+
+# This is for setting Kubernetes Annotations to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/ 
+podAnnotations: { }
+# This is for setting Kubernetes Labels to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: { }
+
+# 845 matches the defaults for the container documentation.
+podSecurityContext:
+  fsGroup: 845
+
+securityContext: { }
+  # capabilities:
+  #   drop:
+  #   - ALL
+# readOnlyRootFilesystem: true
+# runAsNonRoot: true
+# runAsUser: 1000
+
+hostNetwork: true
+
+# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+service:
+  enabled: true
+  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  type: ClusterIP
+  # This is the RCON port -
+  portTcp: 27015
+  # This is required - game traffic is sent over UDP
+  portUdp: 34197
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  requests:
+    cpu: 1000m
+    memory: 4Gi
+
+# Additional volumes on the output Deployment definition.
+volumes:
+  - name: factorio
+    # HostPath sample
+    hostPath:
+      path: /home/factorio
+    #
+    # Ephemeral sample (local storage)
+    # ephemeral:
+    #   volumeClaimTemplate:
+    #     spec:
+    #       accessModes: [ "ReadWriteOnce" ]
+    #       resources:
+    #         requests:
+    #           storage: 50Gi
+    #
+    # PVC Sample
+    # persistentVolumeClaim:
+    #   claimName: factorio
+  - name: server-settings
+    configMap:
+      name: server-settings
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts:
+  - name: factorio
+    mountPath: "/factorio"
+  #- name: server-settings
+  #  mountPath: "/server-settings.json"
+  #  key: "server-settings"
+
+nodeSelector: { }
+
+tolerations: [ ]
+
+affinity: { }
