@@ -36,7 +36,7 @@ jobs:
           echo "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
           echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
           echo "REVISION=${GITHUB_SHA}" >> $GITHUB_OUTPUT
-          echo "CHART_VERSION=$(yq eval '.version' charts/$CHART_NAME/Chart.yaml)" >> $GITHUB_OUTPUT
+          echo "CHART_VERSION=$(yq eval '.version' helm/$CHART_NAME/Chart.yaml)" >> $GITHUB_OUTPUT
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
