@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "valheim.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "valheim.fullname" . }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "valheim.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{ if eq .Values.useHostNetworking true }}
+      hostNetwork: true
+      {{ end }}
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          name: {{ include "valheim.fullname" . }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          env:
+            - name: SERVER_NAME
+              value: {{ .Values.serverName }}
+            - name: WORLD_NAME
+              value: {{ .Values.worldName }}
+            - name: SERVER_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.passwordSecret.name }}
+                  key: {{ .Values.passwordSecret.key }}
+                  optional: false
+            - name: SERVER_PORT
+              value: {{ .Values.networking.gamePort | quote }}
+            {{ if .Values.extraEnvironmentVars -}}
+            {{ range $key, $value := .Values.extraEnvironmentVars }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{ end -}}
+            {{ end -}}
+          ports:
+            - containerPort: {{ .Values.networking.gamePort | int }}
+              name: gameport
+            - containerPort: {{ .Values.networking.gamePort | int | add 1 }}
+              name: queryport
+          {{- with .Values.volumeMounts }}
+          volumeMounts:
+            - mountPath: /config
+              name: gamefiles
+            - mountPath: /opt/valheim
+              name: serverfiles
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          resources: {{- toYaml .Values.resources | nindent 10 }}
+      volumes:
+        {{ if eq .Values.storage.kind "hostvol" }}
+        - name: gamefiles
+          hostPath:
+            path: {{ .Values.storage.hostvol.path }}
+            type: DirectoryOrCreate
+        {{ end }}
+        {{ if eq .Values.serverStorage.kind "hostvol" }}
+        - name: serverfiles
+          hostPath:
+            path: {{ .Values.serverStorage.hostvol.path }}
+            type: DirectoryOrCreate
+        {{ end }}
+        {{ if eq .Values.storage.kind "persistentVolumeClaim" }}
+        - name: gamefiles
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-world-data
+        {{ end }}
+        {{ if eq .Values.serverStorage.kind "persistentVolumeClaim" }}
+        - name: serverfiles
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-server-base-data
+        {{ end }}
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
