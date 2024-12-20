@@ -8,7 +8,7 @@ on:
       - master
       - main
     paths:
-      - factorio/**
+      - helm/factorio/**
 
 env:
   CHART_NAME: factorio

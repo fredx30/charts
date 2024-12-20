@@ -8,7 +8,7 @@ on:
       - master
       - main
     paths:
-      - emby/**
+      - helm/emby/**
 
 env:
   CHART_NAME: emby
