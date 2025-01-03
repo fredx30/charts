@@ -21,8 +21,10 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      {{ if .Values.podSecurityContext -}}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- end }}
       {{ if eq .Values.useHostNetworking true }}
       hostNetwork: true
       {{ end }}
