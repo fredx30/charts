@@ -6,7 +6,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: {{ include "valheim.fullname" . }}
+      {{- include "valheim.labels" . | nindent 8 }}
   strategy:
     type: Recreate
   template:
@@ -87,7 +87,9 @@ spec:
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-server-base-data
         {{ end -}}
+        {{ if .Values.volumes -}}
         {{- toYaml .Values.volumes | nindent 8 }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
