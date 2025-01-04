@@ -72,6 +72,16 @@ ingress:
                 name: emby
                 port:
                   name: http
+    - host: chart-example.external
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: emby
+                port:
+                  name: https
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
