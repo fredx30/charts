@@ -48,8 +48,12 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  portName: http
-  port: 8096
+  local:
+    portName: http
+    port: 8096
+  external:
+    portName: https
+    port: 8920
 
 ingress:
   enabled: false

@@ -7,9 +7,13 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.portName }}
+    - port: {{ .Values.service.local.port }}
+      targetPort: {{ .Values.service.local.portName }}
       protocol: TCP
-      name: {{ .Values.service.portName }}
+      name: {{ .Values.service.local.portName }}
+    - port: {{ .Values.service.external.port }}
+      targetPort: {{ .Values.service.external.portName }}
+      protocol: TCP
+      name: {{ .Values.service.external.portName }}
   selector:
     {{- include "emby-chart.selectorLabels" . | nindent 4 }}
