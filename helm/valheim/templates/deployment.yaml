@@ -21,9 +21,9 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      {{ if .Values.podSecurityContext -}}
+      {{ with .Values.podSecurityContext -}}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       {{ if eq .Values.useHostNetworking true }}
       hostNetwork: true
@@ -62,7 +62,9 @@ spec:
               name: gamefiles
             - mountPath: /opt/valheim
               name: serverfiles
+            {{ if .Values.volumeMounts -}}
             {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- end }}
           {{ if .Values.resources -}}
           resources: {{- toYaml .Values.resources | nindent 10 }}
           {{- end }}
