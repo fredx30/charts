@@ -18,6 +18,8 @@ configVolume:
   #storageClass: ""
   #hostPath: "/tmp/emby-config"
 
+hostNetwork: false
+
 volumeAnnotations: { }
 claimAnnotations: { }
 
