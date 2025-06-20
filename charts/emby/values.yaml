@@ -65,25 +65,23 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: chart-example.local
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: emby
-                port:
-                  name: http
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: emby
+              port:
+                name: http
     - host: chart-example.external
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: emby
-                port:
-                  name: https
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: emby
+              port:
+                name: https
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
