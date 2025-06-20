@@ -1,17 +1,51 @@
 apiVersion: v1
 entries:
+  emby:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-06-20T18:46:07.039713236Z"
+    description: A Helm chart for Kubernetes
+    digest: 2ec4bd0108bc2fbfbc383f29ca4eab999e50b22b88aa3ec029c90a8026e4a611
+    name: emby
+    type: application
+    urls:
+    - https://github.com/fredx30/charts/releases/download/emby-1.0.1/emby-1.0.1.tgz
+    version: 1.0.1
+  factorio:
+  - apiVersion: v2
+    appVersion: 2.0.25
+    created: "2025-06-20T18:46:07.166181685Z"
+    description: A Helm chart for Kubernetes
+    digest: edd886d4cf02d00c7ff6367225df03f3cdb17305fa328279d0ab16a28c8a3f65
+    name: factorio
+    type: application
+    urls:
+    - https://github.com/fredx30/charts/releases/download/factorio-0.1.0/factorio-0.1.0.tgz
+    version: 0.1.0
   self-host:
-    - apiVersion: v2
-      appVersion: 1.0.1
-      created: "2025-06-12T20:35:15.467198542Z"
-      description: A Helm chart for deploying a Emby instance on Kubernetes
-      digest: asd
-      home: https://github.com/fredx30/charts/tree/main/charts/emby
-      icon: https://raw.githubusercontent.com/fredx30/brand/main/icons/icon-square.svg
-      maintainers:
-        - name: fredx30
-      name: Emby
-      type: application
-      urls:
-        - https://github.com/fredx30/charts/releases/download/file.tgz
-      version: 1.0.1
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2025-06-12T20:35:15.467198542Z"
+    description: A Helm chart for deploying a Emby instance on Kubernetes
+    digest: asd
+    home: https://github.com/fredx30/charts/tree/main/charts/emby
+    icon: https://raw.githubusercontent.com/fredx30/brand/main/icons/icon-square.svg
+    maintainers:
+    - name: fredx30
+    name: Emby
+    type: application
+    urls:
+    - https://github.com/fredx30/charts/releases/download/file.tgz
+    version: 1.0.1
+  valheim:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-06-20T18:46:07.29064451Z"
+    description: A Helm chart for Kubernetes
+    digest: 5a8c22a4d911969e893ecfa619c99f1f686aeb0c0d26ec2e7e4e9439326780c3
+    name: valheim
+    type: application
+    urls:
+    - https://github.com/fredx30/charts/releases/download/valheim-0.1.7/valheim-0.1.7.tgz
+    version: 0.1.7
+generated: "2025-06-20T18:46:07.290650802Z"
