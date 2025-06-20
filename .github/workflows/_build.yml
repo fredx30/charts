@@ -27,45 +27,13 @@ jobs:
         with:
           version: 'v3.13.1'
 
-      - name: Login to Azure - CI Subscription
-        uses: Azure/login@cb79c773a3cfa27f31f25eb3f677781210c9ce3d # v1.6.1
-        with:
-          creds: ${{ secrets.AZURE_KV_CI_SERVICE_PRINCIPAL }}
-
-      - name: Set up GPG key and passphrase
-        run: |
-          az keyvault secret download \
-            --vault-name bitwarden-ci \
-            --name helm-signing-gpg-private-key \
-            --file private
-
-          az keyvault secret download \
-          --vault-name bitwarden-ci \
-          --name helm-signing-gpg-private-key-passphrase \
-          --file .passphrase
-
-          az keyvault secret download \
-          --vault-name bitwarden-ci \
-          --name helm-signing-gpg-public-key \
-          --file public
-
-          gpg --dearmor private
-          gpg --dearmor public
-
       - name: Package Helm chart
         id: helm_package
         run: |
           helm package \
-            --sign \
-            --key "DevOps Team" \
-            --keyring private.gpg \
-            --passphrase-file .passphrase \
             charts/${{ inputs.chart_name }}
           PKG_NAME=$(ls *.tgz)
           echo "name=$PKG_NAME" >> "$GITHUB_OUTPUT"
-
-      - name: Verify Helm chart
-        run: helm verify ${{ steps.helm_package.outputs.name }} --keyring public.gpg
 
       - name: Upload Helm chart artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
