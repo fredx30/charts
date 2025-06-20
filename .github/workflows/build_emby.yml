@@ -1,0 +1,22 @@
+# Stolen from: https://github.com/bitwarden/helm-charts/blob/main/.github/workflows/build-self-host.yml
+name: Build Emby
+
+on:
+  push:
+    branches-ignore:
+      - "gh-pages"
+    paths-ignore:
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+jobs:
+  build-emby:
+    name: Build Emby
+    uses: ./.github/workflows/_build.yml
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
+    with:
+      chart_name: emby
+    secrets: inherit

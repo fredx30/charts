@@ -1,0 +1,77 @@
+# Stolen from: https://github.com/bitwarden/helm-charts/blob/main/.github/workflows/_build.yml
+name: _build
+
+on:
+  workflow_call:
+    inputs:
+      chart_name:
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+
+jobs:
+  build:
+    name: Build Helm charts
+    runs-on: ubuntu-22.04
+    environment: Production
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Helm
+        uses: Azure/setup-helm@5119fcb9089d432beecbf79bb2c7915207344b78 # v3.5
+        with:
+          version: 'v3.13.1'
+
+      - name: Login to Azure - CI Subscription
+        uses: Azure/login@cb79c773a3cfa27f31f25eb3f677781210c9ce3d # v1.6.1
+        with:
+          creds: ${{ secrets.AZURE_KV_CI_SERVICE_PRINCIPAL }}
+
+      - name: Set up GPG key and passphrase
+        run: |
+          az keyvault secret download \
+            --vault-name bitwarden-ci \
+            --name helm-signing-gpg-private-key \
+            --file private
+
+          az keyvault secret download \
+          --vault-name bitwarden-ci \
+          --name helm-signing-gpg-private-key-passphrase \
+          --file .passphrase
+
+          az keyvault secret download \
+          --vault-name bitwarden-ci \
+          --name helm-signing-gpg-public-key \
+          --file public
+
+          gpg --dearmor private
+          gpg --dearmor public
+
+      - name: Package Helm chart
+        id: helm_package
+        run: |
+          helm package \
+            --sign \
+            --key "DevOps Team" \
+            --keyring private.gpg \
+            --passphrase-file .passphrase \
+            charts/${{ inputs.chart_name }}
+          PKG_NAME=$(ls *.tgz)
+          echo "name=$PKG_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Verify Helm chart
+        run: helm verify ${{ steps.helm_package.outputs.name }} --keyring public.gpg
+
+      - name: Upload Helm chart artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ${{ inputs.chart_name }}
+          path: |
+            ${{ steps.helm_package.outputs.name }}
+            ${{ steps.helm_package.outputs.name }}.prov
+          if-no-files-found: error
