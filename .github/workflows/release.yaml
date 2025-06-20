@@ -10,7 +10,6 @@ jobs:
   release:
     name: Release Helm chart
     runs-on: ubuntu-latest
-    environment: Production
     permissions:
       actions: read
       contents: write
