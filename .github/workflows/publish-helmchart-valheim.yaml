@@ -1,4 +1,4 @@
-name: release
+name: Release Helm chart for Valheim
 
 on:
   push:
