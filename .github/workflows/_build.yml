@@ -31,7 +31,7 @@ jobs:
         id: helm_package
         run: |
           helm package \
-            helm/${{ inputs.chart_name }}
+            charts/${{ inputs.chart_name }}
           PKG_NAME=$(ls *.tgz)
           echo "name=$PKG_NAME" >> "$GITHUB_OUTPUT"
 

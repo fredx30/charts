@@ -8,7 +8,7 @@ on:
       - master
       - main
     paths:
-      - helm/valheim/**
+      - charts/valheim/**
 
 env:
   CHART_NAME: valheim
@@ -38,7 +38,7 @@ jobs:
           echo "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
           echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
           echo "REVISION=${GITHUB_SHA}" >> $GITHUB_OUTPUT
-          echo "CHART_VERSION=$(yq eval '.version' helm/$CHART_NAME/Chart.yaml)" >> $GITHUB_OUTPUT
+          echo "CHART_VERSION=$(yq eval '.version' charts/$CHART_NAME/Chart.yaml)" >> $GITHUB_OUTPUT
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -51,6 +51,6 @@ jobs:
 
       - name: Publish Helm chart to GHCR
         run: |
-          helm package helm/$CHART_NAME
+          helm package charts/$CHART_NAME
           helm push $CHART_NAME-${{ steps.prep.outputs.CHART_VERSION }}.tgz oci://ghcr.io/fredx30/charts
           rm $CHART_NAME-${{ steps.prep.outputs.CHART_VERSION }}.tgz
