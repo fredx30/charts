@@ -1,0 +1,17 @@
+apiVersion: v1
+entries:
+  self-host:
+    - apiVersion: v2
+      appVersion: 1.0.1
+      created: "2025-06-12T20:35:15.467198542Z"
+      description: A Helm chart for deploying a Emby instance on Kubernetes
+      digest: asd
+      home: https://github.com/fredx30/charts/tree/main/charts/emby
+      icon: https://raw.githubusercontent.com/fredx30/brand/main/icons/icon-square.svg
+      maintainers:
+        - name: fredx30
+      name: Emby
+      type: application
+      urls:
+        - https://github.com/fredx30/charts/releases/download/file.tgz
+      version: 1.0.1

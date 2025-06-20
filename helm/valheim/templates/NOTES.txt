@@ -1,3 +1,0 @@
-The valheim serverpod will produce logs. At the end of the server init these logs will indicate a server join code.
-Using this server join code one can join the server from the Valheim client.
-The server pod will attempt to figure out the public ip its running under. Persumably through its connection to steam.
