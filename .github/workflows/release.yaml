@@ -35,3 +35,4 @@ jobs:
           CR_SKIP_EXISTING: true
           CR_GIT_REPO: ${{ github.repository }}
           CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MARK_AS_LATEST: false
