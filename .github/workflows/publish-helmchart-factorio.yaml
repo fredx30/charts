@@ -41,7 +41,7 @@ jobs:
           echo "CHART_VERSION=$(yq eval '.version' charts/$CHART_NAME/Chart.yaml)" >> $GITHUB_OUTPUT
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
