@@ -3,6 +3,16 @@ entries:
   emby:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2026-05-14T11:03:18.141786409Z"
+    description: A Helm chart for Kubernetes
+    digest: c070b979d0f48c9a4e84a14feb283663a1b700824f9b0753a9ddd583409221b8
+    name: emby
+    type: application
+    urls:
+    - https://github.com/fredx30/charts/releases/download/emby-1.1.0/emby-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-06-20T18:50:50.508487133Z"
     description: A Helm chart for Kubernetes
     digest: f08a3e629216b449c8790882a304c8b5d4a00d24db9818448e13d2b104456bc0
@@ -43,4 +53,4 @@ entries:
     urls:
     - https://github.com/fredx30/charts/releases/download/valheim-0.1.7/valheim-0.1.7.tgz
     version: 0.1.7
-generated: "2025-06-20T18:50:50.508503344Z"
+generated: "2026-05-14T11:03:18.141805925Z"
