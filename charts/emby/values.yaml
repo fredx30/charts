@@ -20,6 +20,23 @@ configVolume:
 
 hostNetwork: false
 
+deploymentStrategy:
+  type: Recreate
+  # rollingUpdate is only used when type is RollingUpdate
+  # rollingUpdate:
+  #   maxSurge: 1
+  #   maxUnavailable: 0
+
+dlna:
+  enabled: false
+  # When true, a dedicated Service is created for DLNA UDP ports.
+  # Set separateService: false to add ports to the main service instead.
+  separateService: true
+  ssdpPort: 1900       # UDP — SSDP/UPnP multicast discovery
+  discoveryPort: 7359  # UDP — Emby local network discovery broadcast
+  serviceType: LoadBalancer
+  loadBalancerIP: ""   # optional fixed IP (e.g. a MetalLB address)
+
 volumeAnnotations: { }
 claimAnnotations: { }
 
