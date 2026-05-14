@@ -1,0 +1,25 @@
+{{- if .Values.dlna.enabled }}
+{{- if .Values.dlna.separateService }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "emby-chart.fullname" . }}-dlna
+  labels:
+    {{- include "emby-chart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.dlna.serviceType }}
+  {{- if .Values.dlna.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.dlna.loadBalancerIP }}
+  {{- end }}
+  selector:
+    {{- include "emby-chart.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: dlna-ssdp
+      port: {{ .Values.dlna.ssdpPort }}
+      protocol: UDP
+    - name: dlna-discovery
+      port: {{ .Values.dlna.discoveryPort }}
+      protocol: UDP
+{{- end }}
+{{- end }}
+
