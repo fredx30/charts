@@ -110,6 +110,14 @@ volumeMounts:
   #  mountPath: "/server-settings.json"
   #  key: "server-settings"
 
+# Recreate is the safe default: hostNetwork: true binds game ports directly to the
+# host NIC — RollingUpdate deadlocks waiting for ports to be freed by the old pod.
+deploymentStrategy:
+  type: Recreate
+  rollingUpdate:   # only used when type: RollingUpdate
+    maxSurge: 1
+    maxUnavailable: 0
+
 nodeSelector: { }
 
 tolerations: [ ]
