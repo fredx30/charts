@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   emby:
   - apiVersion: v2
+    appVersion: 4.10.0.11
+    created: "2026-05-17T16:36:26.990986977Z"
+    description: A Helm chart for Kubernetes
+    digest: 69bc00d520db523f7b8608f5c372d0a03a861e6ce6134f1860d44315c27c7b85
+    name: emby
+    type: application
+    urls:
+    - https://github.com/fredx30/charts/releases/download/emby-1.3.1/emby-1.3.1.tgz
+    version: 1.3.1
+  - apiVersion: v2
     appVersion: 1.16.0
     created: "2026-05-17T16:26:39.755598513Z"
     description: A Helm chart for Kubernetes
@@ -63,6 +73,16 @@ entries:
     version: 1.0.1
   factorio:
   - apiVersion: v2
+    appVersion: 2.0.76
+    created: "2026-05-17T16:36:27.141224254Z"
+    description: A Helm chart for Kubernetes
+    digest: 2fe3529f9258681e2e448c541a7db19f723a2704db63e56e229f090c3fc1697f
+    name: factorio
+    type: application
+    urls:
+    - https://github.com/fredx30/charts/releases/download/factorio-0.2.1/factorio-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
     appVersion: 2.0.25
     created: "2026-05-17T16:26:39.90056219Z"
     description: A Helm chart for Kubernetes
@@ -94,6 +114,16 @@ entries:
     version: 0.1.0
   valheim:
   - apiVersion: v2
+    appVersion: 0.221.12
+    created: "2026-05-17T16:36:27.282367709Z"
+    description: A Helm chart for Kubernetes
+    digest: a633617debe68170fab45f56fda78c3914a5091ea715d0c10e52d1b1e442dad7
+    name: valheim
+    type: application
+    urls:
+    - https://github.com/fredx30/charts/releases/download/valheim-0.2.1/valheim-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
     appVersion: 1.16.0
     created: "2026-05-17T16:26:40.020573227Z"
     description: A Helm chart for Kubernetes
@@ -113,4 +143,4 @@ entries:
     urls:
     - https://github.com/fredx30/charts/releases/download/valheim-0.1.7/valheim-0.1.7.tgz
     version: 0.1.7
-generated: "2026-05-17T16:26:40.020621282Z"
+generated: "2026-05-17T16:36:27.282444855Z"
