@@ -55,7 +55,8 @@ securityContext: { }
 # runAsNonRoot: true
 # runAsUser: 1000
 
-hostNetwork: true
+# Expose game traffic via a Service (e.g. LoadBalancer or Gateway API UDPRoute) instead.
+hostNetwork: false
 
 # When managed, an init container copies the server-settings ConfigMap onto the data
 # volume on every start, overwriting manual edits. Requires the "factorio" and
@@ -113,8 +114,8 @@ volumeMounts:
   #  mountPath: "/server-settings.json"
   #  key: "server-settings"
 
-# Recreate is the safe default: hostNetwork: true binds game ports directly to the
-# host NIC — RollingUpdate deadlocks waiting for ports to be freed by the old pod.
+# Recreate is the safe default: the save data volume is single-writer, and with
+# hostNetwork: true RollingUpdate would deadlock waiting for the old pod's ports.
 deploymentStrategy:
   type: Recreate
   rollingUpdate:   # only used when type: RollingUpdate
