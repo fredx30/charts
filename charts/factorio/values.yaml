@@ -75,6 +75,15 @@ service:
   # This is required - game traffic is sent over UDP
   portUdp: 34197
 
+# Gateway API UDPRoute for game traffic. The referenced Gateway needs a UDP
+# listener on service.portUdp that allows routes from this namespace.
+udpRoute:
+  enabled: false
+  parentRef:
+    name: ""
+    namespace: ""
+    sectionName: ""
+
 resources:
   requests:
     cpu: 500m

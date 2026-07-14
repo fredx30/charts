@@ -1,0 +1,21 @@
+{{- if .Values.udpRoute.enabled }}
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: UDPRoute
+metadata:
+  name: {{ include "factorio.fullname" . }}
+  labels:
+    {{- include "factorio.labels" . | nindent 4 }}
+spec:
+  parentRefs:
+    - name: {{ .Values.udpRoute.parentRef.name }}
+      {{- with .Values.udpRoute.parentRef.namespace }}
+      namespace: {{ . }}
+      {{- end }}
+      {{- with .Values.udpRoute.parentRef.sectionName }}
+      sectionName: {{ . }}
+      {{- end }}
+  rules:
+    - backendRefs:
+        - name: {{ include "factorio.fullname" . }}
+          port: {{ .Values.service.portUdp }}
+{{- end }}
