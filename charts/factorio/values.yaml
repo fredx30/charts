@@ -57,6 +57,13 @@ securityContext: { }
 
 hostNetwork: true
 
+# When managed, an init container copies the server-settings ConfigMap onto the data
+# volume on every start, overwriting manual edits. Requires the "factorio" and
+# "server-settings" volumes below to be present.
+serverSettings:
+  managed: true
+  gamePassword: ""
+
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
 service:
   enabled: true

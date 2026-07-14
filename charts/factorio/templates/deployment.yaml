@@ -35,6 +35,19 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.serverSettings.managed }}
+      initContainers:
+        # overwrite drifted on-volume config with the chart-managed ConfigMap
+        - name: copy-server-settings
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: [ "/bin/sh", "-c", "mkdir -p /factorio/config && cp /server-settings-src/server-settings /factorio/config/server-settings.json" ]
+          volumeMounts:
+            - name: factorio
+              mountPath: /factorio
+            - name: server-settings
+              mountPath: /server-settings-src
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           env:
