@@ -8,7 +8,10 @@ image:
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "stable"
+  # Rootless variants run as a fixed non-root UID; the securityContext defaults
+  # below assume them. Data previously managed by the root image is owned
+  # 845:845, so we keep that UID instead of the image default (1000).
+  tag: "stable-rootless"
 
 # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: [ ]
@@ -43,17 +46,22 @@ podAnnotations: { }
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 podLabels: { }
 
-# 845 matches the defaults for the container documentation.
+# 845 is the factorio user of the pre-rootless image; existing data volumes are owned by it.
+# fsGroup has no effect on hostPath volumes - ownership must match runAsUser/runAsGroup.
 podSecurityContext:
+  runAsUser: 845
+  runAsGroup: 845
   fsGroup: 845
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
 
-securityContext: { }
-  # capabilities:
-  #   drop:
-  #   - ALL
-# readOnlyRootFilesystem: true
-# runAsNonRoot: true
-# runAsUser: 1000
+# readOnlyRootFilesystem would break the entrypoint (sed -i on /opt/factorio/config/config.ini).
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
 
 # Expose game traffic via a Service (e.g. LoadBalancer or Gateway API UDPRoute) instead.
 hostNetwork: false

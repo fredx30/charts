@@ -41,6 +41,8 @@ spec:
         - name: copy-server-settings
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           command: [ "/bin/sh", "-c", "mkdir -p /factorio/config && cp /server-settings-src/server-settings /factorio/config/server-settings.json" ]
           volumeMounts:
             - name: factorio
