@@ -74,6 +74,16 @@ entries:
   factorio:
   - apiVersion: v2
     appVersion: 2.0.77
+    created: "2026-08-03T19:33:41.353422864Z"
+    description: A Helm chart for Kubernetes
+    digest: 105b6ef8596f226321872b9b56b9251a4991af5900ddcbfc25aed6406762c65d
+    name: factorio
+    type: application
+    urls:
+    - https://github.com/fredx30/charts/releases/download/factorio-0.6.0/factorio-0.6.0.tgz
+    version: 0.6.0
+  - apiVersion: v2
+    appVersion: 2.0.77
     created: "2026-07-14T21:19:44.976853284Z"
     description: A Helm chart for Kubernetes
     digest: c1a9949ee49348ae4eb83a52a59ae12175266429aee35e3c5d4475f9674d0c86
@@ -183,4 +193,4 @@ entries:
     urls:
     - https://github.com/fredx30/charts/releases/download/valheim-0.1.7/valheim-0.1.7.tgz
     version: 0.1.7
-generated: "2026-07-14T21:19:44.97689894Z"
+generated: "2026-08-03T19:33:41.353463817Z"
