@@ -65,6 +65,32 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
+# Override the image entrypoint / arguments.
+# The emby/embyserver image's default entrypoint is s6-overlay's /init, which
+# must start as root (it creates /run and chowns /config) and then drops to
+# UID/GID via s6-applyuidgid. To run the container with no root at all
+# (runAsNonRoot, capabilities drop ALL, allowPrivilegeEscalation false), bypass
+# s6 and start the server binary directly with the same arguments s6 uses:
+# command: ["/system/EmbyServer"]
+# args:
+#   - -programdata
+#   - /config
+#   - -ffdetect
+#   - /bin/ffdetect
+#   - -ffmpeg
+#   - /bin/ffmpeg
+#   - -ffprobe
+#   - /bin/ffprobe
+#   - -restartexitcode
+#   - "3"
+# With this the UID/GID/GIDLIST env vars below are unused; set
+# podSecurityContext.runAsUser/runAsGroup/fsGroup instead, and make sure the
+# config/media host paths are already owned by that uid:gid (nothing chowns
+# them any more). Emby's self-restart exits 3, so the kubelet restarts the
+# container instead of s6.
+command: []
+args: []
+
 # Environment variables passed to the emby container.
 # The emby/embyserver image runs s6-overlay as root for init, then drops
 # privileges to the user/group specified by UID/GID/GIDLIST env vars.
